@@ -1,0 +1,13 @@
+PlanKey,PlanCode,PlanName,ProductCategory,ParNonPar,LinkedNonLinked,IsULIP
+1,201,LIC ULIP Growth,ULIP,Par,Linked,1
+2,202,LIC ULIP Secure,ULIP,Non-Par,Linked,1
+3,203,LIC ULIP Wealth Plus,ULIP,Par,Linked,1
+4,204,LIC ULIP IPP Saver,ULIP,Non-Par,Linked,1
+5,301,LIC Endowment Classic,Endowment,Par,Non-linked,0
+6,302,LIC Endowment Plus,Endowment,Par,Non-linked,0
+7,303,LIC Endowment Secure,Endowment,Non-Par,Non-linked,0
+8,401,LIC Savings Regular,Savings,Par,Non-linked,0
+9,402,LIC Savings Single,Savings,Non-Par,Non-linked,0
+10,403,LIC Money Back,Savings,Par,Non-linked,0
+11,501,LIC Health Protect,Health,Non-Par,Non-linked,0
+12,601,LIC Pension Shield,Pension,Non-Par,Non-linked,0

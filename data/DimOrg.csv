@@ -1,0 +1,43 @@
+OrgKey,ZoneCode,ZoneName,DivisionCode,DivisionName,BranchCode,BranchName,SatelliteOfficeCode,SatelliteOfficeName,SubBranchCode
+1,101,North Zone,1011,North Division 1,10111,Branch NO-11,101111,SatOffice Branch NO-11,101112
+2,101,North Zone,1011,North Division 1,10112,Branch NO-12,101121,SatOffice Branch NO-12,101122
+3,101,North Zone,1011,North Division 1,10113,Branch NO-13,101131,SatOffice Branch NO-13,101132
+4,101,North Zone,1012,North Division 2,10121,Branch NO-21,101211,SatOffice Branch NO-21,101212
+5,101,North Zone,1012,North Division 2,10122,Branch NO-22,101221,SatOffice Branch NO-22,101222
+6,101,North Zone,1012,North Division 2,10123,Branch NO-23,101231,SatOffice Branch NO-23,101232
+7,102,North Central Zone,1021,North Division 1,10211,Branch NO-11,102111,SatOffice Branch NO-11,102112
+8,102,North Central Zone,1021,North Division 1,10212,Branch NO-12,102121,SatOffice Branch NO-12,102122
+9,102,North Central Zone,1021,North Division 1,10213,Branch NO-13,102131,SatOffice Branch NO-13,102132
+10,102,North Central Zone,1022,North Division 2,10221,Branch NO-21,102211,SatOffice Branch NO-21,102212
+11,102,North Central Zone,1022,North Division 2,10222,Branch NO-22,102221,SatOffice Branch NO-22,102222
+12,102,North Central Zone,1022,North Division 2,10223,Branch NO-23,102231,SatOffice Branch NO-23,102232
+13,103,South Zone,1031,South Division 1,10311,Branch SO-11,103111,SatOffice Branch SO-11,103112
+14,103,South Zone,1031,South Division 1,10312,Branch SO-12,103121,SatOffice Branch SO-12,103122
+15,103,South Zone,1031,South Division 1,10313,Branch SO-13,103131,SatOffice Branch SO-13,103132
+16,103,South Zone,1032,South Division 2,10321,Branch SO-21,103211,SatOffice Branch SO-21,103212
+17,103,South Zone,1032,South Division 2,10322,Branch SO-22,103221,SatOffice Branch SO-22,103222
+18,103,South Zone,1032,South Division 2,10323,Branch SO-23,103231,SatOffice Branch SO-23,103232
+19,104,South Central Zone,1041,South Division 1,10411,Branch SO-11,104111,SatOffice Branch SO-11,104112
+20,104,South Central Zone,1041,South Division 1,10412,Branch SO-12,104121,SatOffice Branch SO-12,104122
+21,104,South Central Zone,1041,South Division 1,10413,Branch SO-13,104131,SatOffice Branch SO-13,104132
+22,104,South Central Zone,1042,South Division 2,10421,Branch SO-21,104211,SatOffice Branch SO-21,104212
+23,104,South Central Zone,1042,South Division 2,10422,Branch SO-22,104221,SatOffice Branch SO-22,104222
+24,104,South Central Zone,1042,South Division 2,10423,Branch SO-23,104231,SatOffice Branch SO-23,104232
+25,105,East Zone,1051,East Division 1,10511,Branch EA-11,105111,SatOffice Branch EA-11,105112
+26,105,East Zone,1051,East Division 1,10512,Branch EA-12,105121,SatOffice Branch EA-12,105122
+27,105,East Zone,1051,East Division 1,10513,Branch EA-13,105131,SatOffice Branch EA-13,105132
+28,105,East Zone,1052,East Division 2,10521,Branch EA-21,105211,SatOffice Branch EA-21,105212
+29,105,East Zone,1052,East Division 2,10522,Branch EA-22,105221,SatOffice Branch EA-22,105222
+30,105,East Zone,1052,East Division 2,10523,Branch EA-23,105231,SatOffice Branch EA-23,105232
+31,106,West Zone,1061,West Division 1,10611,Branch WE-11,106111,SatOffice Branch WE-11,106112
+32,106,West Zone,1061,West Division 1,10612,Branch WE-12,106121,SatOffice Branch WE-12,106122
+33,106,West Zone,1061,West Division 1,10613,Branch WE-13,106131,SatOffice Branch WE-13,106132
+34,106,West Zone,1062,West Division 2,10621,Branch WE-21,106211,SatOffice Branch WE-21,106212
+35,106,West Zone,1062,West Division 2,10622,Branch WE-22,106221,SatOffice Branch WE-22,106222
+36,106,West Zone,1062,West Division 2,10623,Branch WE-23,106231,SatOffice Branch WE-23,106232
+37,107,Central Zone,1071,Central Division 1,10711,Branch CE-11,107111,SatOffice Branch CE-11,107112
+38,107,Central Zone,1071,Central Division 1,10712,Branch CE-12,107121,SatOffice Branch CE-12,107122
+39,107,Central Zone,1071,Central Division 1,10713,Branch CE-13,107131,SatOffice Branch CE-13,107132
+40,107,Central Zone,1072,Central Division 2,10721,Branch CE-21,107211,SatOffice Branch CE-21,107212
+41,107,Central Zone,1072,Central Division 2,10722,Branch CE-22,107221,SatOffice Branch CE-22,107222
+42,107,Central Zone,1072,Central Division 2,10723,Branch CE-23,107231,SatOffice Branch CE-23,107232
