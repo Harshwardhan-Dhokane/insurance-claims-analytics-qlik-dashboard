@@ -1,0 +1,350 @@
+Calender :
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='$ ###0.00;-$ ###0.00';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='M/D/YYYY';
+SET TimestampFormat='M/D/YYYY h:mm:ss[.fff] TT';
+SET FirstWeekDay=6;
+SET BrokenWeeks=1;
+SET ReferenceDay=0;
+SET FirstMonthOfYear=1;
+SET CollationLocale='en-US';
+SET CreateSearchIndexOnReload=1;
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET LongMonthNames='January;February;March;April;May;June;July;August;September;October;November;December';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+SET LongDayNames='Monday;Tuesday;Wednesday;Thursday;Friday;Saturday;Sunday';
+SET NumericalAbbreviation='3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y';
+
+
+// =============================
+// LIC Claims Dummy Data - FINAL Qlik Cloud Load Script (NO Synthetic Keys)
+// Fixes ApplyMap error by removing ApplyMap (not needed)
+// Uses LinkFacts + LinkDates (facts share ONLY LinkKey)
+// =============================
+
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='₹#,##0.00;₹-#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD-MMM-YYYY';
+SET TimestampFormat='DD-MMM-YYYY hh:mm:ss[.fff]';
+SET FirstWeekDay=0;
+
+LET vPath = 'lib://DataFiles/';
+
+// -----------------------------
+// DIMENSIONS
+// -----------------------------
+DimOrg:
+LOAD
+  OrgKey,
+  ZoneCode,
+  ZoneName,
+  DivisionCode,
+  DivisionName,
+  BranchCode,
+  BranchName,
+  SatelliteOfficeCode,
+  SatelliteOfficeName,
+  SubBranchCode
+FROM [$(vPath)DimOrg.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+DimPlan:
+LOAD
+  PlanKey,
+  PlanCode,
+  PlanName,
+  ProductCategory,
+  ParNonPar,
+  LinkedNonLinked,
+  IsULIP
+FROM [$(vPath)DimPlan.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+DimChannelAgent:
+LOAD
+  AgentKey,
+  AgencyCode,
+  AgID,
+  ChannelType,
+  SupervisorType,
+  SBAFlag,
+  SupervisorCode,
+  CareerCode,
+  SupervisorStatus,
+  AgentStatus,
+  PolicyRegistrationSource
+FROM [$(vPath)DimChannelAgent.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+// ---- DimPolicy RAW (your CSV contains OrgKey/PlanKey/AgentKey)
+// We'll split to avoid synthetic keys: keep keys ONLY in LinkFacts (NOT in DimPolicy)
+DimPolicy_Raw:
+LOAD
+  PolicyKey,
+  PolicyNumber,
+  OrgKey,
+  PlanKey,
+  AgentKey,
+  Date(Date#(AdjustmentDate,'YYYY-MM-DD')) as AdjustmentDate,
+  Date(Date#(DateOfCommencement,'YYYY-MM-DD')) as DateOfCommencement,
+  ModeOfPayment,
+  ChequeEncashmentDetails,
+  PolicyStatus,
+  PremiumInstallmentAmount,
+  Date(Date#(FUPDate,'YYYY-MM-DD')) as FUPDate,
+  Gaps,
+  SumAssured,
+  Budget,
+  PolicyVintageBucket,
+  HasMobile,
+  HasEmail,
+  HasNEFT,
+  HasPAN
+FROM [$(vPath)DimPolicy.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+// Store the policy -> org/plan/agent mapping in a normal table (NOT mapping table)
+PolicyMap:
+LOAD DISTINCT
+  PolicyKey,
+  OrgKey,
+  PlanKey,
+  AgentKey
+RESIDENT DimPolicy_Raw;
+
+// DimPolicy: REMOVE OrgKey/PlanKey/AgentKey to prevent synthetic keys
+DimPolicy:
+LOAD
+  PolicyKey,
+  PolicyNumber,
+  AdjustmentDate,
+  DateOfCommencement,
+  ModeOfPayment,
+  ChequeEncashmentDetails,
+  PolicyStatus,
+  PremiumInstallmentAmount,
+  FUPDate,
+  Gaps,
+  SumAssured,
+  Budget,
+  PolicyVintageBucket,
+  HasMobile,
+  HasEmail,
+  HasNEFT,
+  HasPAN
+RESIDENT DimPolicy_Raw;
+
+DROP TABLE DimPolicy_Raw;
+
+// ---- Date Dimension
+DimDate:
+LOAD
+  DateKey,
+  Date(Date#(Date,'YYYY-MM-DD')) as Date,
+  Day,
+  Month,
+  MonthName,
+  MonthYear,
+  Quarter,
+  CalendarYear,
+  FinancialYear,
+  Date(Date#(FYStartDate,'YYYY-MM-DD')) as FYStartDate,
+  Date(Date#(FYEndDate,'YYYY-MM-DD')) as FYEndDate,
+  WeekOfYear,
+  MonthWeekBucket,
+  FortnightBucket
+FROM [$(vPath)DimDate.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+
+// -----------------------------
+// FACTS (RAW)
+// -----------------------------
+FactClaimsLifecycle_Raw:
+LOAD
+  ClaimCaseKey,
+  PolicyKey,
+  OrgKey,
+  PlanKey,
+  AgentKey,
+  Date(Date#(ClaimBookedDate,'YYYY-MM-DD')) as ClaimBookedDate,
+  Date(Date#(ClaimPaidDate,'YYYY-MM-DD')) as ClaimPaidDate,
+  Date(Date#(ClaimPaymentDueDate,'YYYY-MM-DD')) as ClaimPaymentDueDate,
+  Date(Date#(ClaimIntimationDate,'YYYY-MM-DD')) as ClaimIntimationDate,
+  PaymentType,
+  ClaimType,
+  DeathClaimType,
+  ClaimStatus,
+  ClaimAmountPaid,
+  ClaimAmountPayable,
+  PaidFinYear,
+  IsBooked,
+  IsPayable,
+  IsPaid,
+  IsPaidOnOrBeforeDueDate,
+  IsRepudiated,
+  IsRejected,
+  IsCancelled,
+  IsIntimationCancelled,
+  OutstandingDaysAsOf,
+  OutstandingBucket,
+  IsOutstandingAsOf,
+  ReinvestmentConsentFlag,
+  ReinvestmentAmount,
+  ClaimBookedDateKey,
+  ClaimPaidDateKey,
+  ClaimPaymentDueDateKey,
+  ClaimIntimationDateKey
+FROM [$(vPath)FactClaimsLifecycle.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+FactClaimsDue_Raw:
+LOAD
+  DueCaseKey,
+  PolicyKey,
+  OrgKey,
+  PlanKey,
+  AgentKey,
+  Date(Date#(ClaimDueDate,'YYYY-MM-DD')) as ClaimDueDate,
+  ClaimDueMonth,
+  DueAmount,
+  IsIntimated,
+  Date(Date#(IntimationDate,'YYYY-MM-DD')) as IntimationDate,
+  ClaimType,
+  PaymentType,
+  ClaimDueDateKey,
+  IntimationDateKey
+FROM [$(vPath)FactClaimsDue.csv]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+
+// -----------------------------
+// LINK TABLE FOR DIMENSIONS (prevents synthetic keys)
+// Facts will connect ONLY via LinkKey
+// -----------------------------
+LinkFacts:
+LOAD
+  ClaimCaseKey as LinkKey,
+  PolicyKey,
+  OrgKey,
+  PlanKey,
+  AgentKey,
+  ClaimType,
+  PaymentType,
+  DeathClaimType,
+  ClaimStatus
+RESIDENT FactClaimsLifecycle_Raw;
+
+CONCATENATE (LinkFacts)
+LOAD
+  'D' & DueCaseKey as LinkKey,
+  PolicyKey,
+  OrgKey,
+  PlanKey,
+  AgentKey,
+  ClaimType,
+  PaymentType,
+  '' as DeathClaimType,
+  '' as ClaimStatus
+RESIDENT FactClaimsDue_Raw;
+
+
+// -----------------------------
+// LINK TABLE FOR MULTIPLE DATES (Booked/Paid/Due/Intimation)
+// -----------------------------
+LinkDates:
+LOAD
+  ClaimCaseKey as LinkKey,
+  ClaimBookedDateKey as DateKey,
+  'Booked' as DateRole
+RESIDENT FactClaimsLifecycle_Raw
+WHERE Len(ClaimBookedDateKey) > 0;
+
+CONCATENATE (LinkDates)
+LOAD
+  ClaimCaseKey as LinkKey,
+  ClaimPaidDateKey as DateKey,
+  'Paid' as DateRole
+RESIDENT FactClaimsLifecycle_Raw
+WHERE Len(ClaimPaidDateKey) > 0;
+
+CONCATENATE (LinkDates)
+LOAD
+  ClaimCaseKey as LinkKey,
+  ClaimPaymentDueDateKey as DateKey,
+  'Due' as DateRole
+RESIDENT FactClaimsLifecycle_Raw
+WHERE Len(ClaimPaymentDueDateKey) > 0;
+
+CONCATENATE (LinkDates)
+LOAD
+  ClaimCaseKey as LinkKey,
+  ClaimIntimationDateKey as DateKey,
+  'Intimation' as DateRole
+RESIDENT FactClaimsLifecycle_Raw
+WHERE Len(ClaimIntimationDateKey) > 0;
+
+CONCATENATE (LinkDates)
+LOAD
+  'D' & DueCaseKey as LinkKey,
+  ClaimDueDateKey as DateKey,
+  'Due' as DateRole
+RESIDENT FactClaimsDue_Raw
+WHERE Len(ClaimDueDateKey) > 0;
+
+CONCATENATE (LinkDates)
+LOAD
+  'D' & DueCaseKey as LinkKey,
+  IntimationDateKey as DateKey,
+  'Intimation' as DateRole
+RESIDENT FactClaimsDue_Raw
+WHERE Len(IntimationDateKey) > 0;
+
+
+// -----------------------------
+// FINAL FACT TABLES (ONLY LinkKey + measures)
+// -----------------------------
+FactClaimsLifecycle:
+LOAD
+  ClaimCaseKey as LinkKey,
+  ClaimAmountPaid,
+  ClaimAmountPayable,
+  PaidFinYear,
+  IsBooked,
+  IsPayable,
+  IsPaid,
+  IsPaidOnOrBeforeDueDate,
+  IsRepudiated,
+  IsRejected,
+  IsCancelled,
+  IsIntimationCancelled,
+  OutstandingDaysAsOf,
+  OutstandingBucket,
+  IsOutstandingAsOf,
+  ReinvestmentConsentFlag,
+  ReinvestmentAmount
+RESIDENT FactClaimsLifecycle_Raw;
+
+FactClaimsDue:
+LOAD
+  'D' & DueCaseKey as LinkKey,
+  ClaimDueMonth,
+  DueAmount,
+  IsIntimated
+RESIDENT FactClaimsDue_Raw;
+
+
+// Cleanup
+DROP TABLE FactClaimsLifecycle_Raw;
+DROP TABLE FactClaimsDue_Raw;
+
+// PolicyMap is optional (kept for debugging / validation). Drop it if you want ultra-clean model.
+DROP TABLE PolicyMap;
