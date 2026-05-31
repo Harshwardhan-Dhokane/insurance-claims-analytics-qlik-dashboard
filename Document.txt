@@ -1,0 +1,1214 @@
+
+# KPI Definitions - Insurance Claims Analytics Dashboard
+
+This document contains all KPI formulas used in the Insurance Claims Analytics Dashboard built using Qlik Sense.
+
+This project uses synthetic/sample data and is created for portfolio, learning, and demonstration purposes.
+
+---
+
+# 1. Claims Overview Dashboard KPIs
+
+---
+
+## 1.1 Opening Balance Claims
+
+Opening Balance represents the claims that were already outstanding or unclaimed at the beginning of the selected period.
+
+
+Opening Balance Claims = Claims outstanding at the start of selected period
+
+
+
+Opening Balance Amount = Claim amount of policies outstanding at the start of selected period
+
+
+***
+
+## 1.2 Booked Claims
+
+Booked Claims are the claims booked for settlement during the selected period.
+
+
+Booked Claims = Count of claims booked during selected period
+
+
+
+Booked Claim Amount = Sum of claim amount for claims booked during selected period
+
+
+***
+
+## 1.3 Payable Claims
+
+Payable Claims are calculated by adding Opening Balance Claims and Booked Claims.
+
+
+Payable Claims = Opening Balance Claims + Booked Claims
+
+
+
+Payable Claim Amount = Opening Balance Amount + Booked Claim Amount
+
+
+***
+
+## 1.4 Paid Claims
+
+Paid Claims are the claims for which payment was completed during the selected period.
+
+
+Paid Claims = Count of claims where claim_status = 'Paid'
+
+
+
+Paid Claim Amount = Sum of claim_amount where claim_status = 'Paid'
+
+
+***
+
+## 1.5 Paid On or Before Due Date
+
+This KPI identifies claims paid on or before the claim payment due date.
+
+
+Paid On or Before Due Date = Count of claims where Paid Date <= Due Date
+
+
+
+Paid On or Before Due Date Amount = Sum of claim_amount where Paid Date <= Due Date
+
+
+***
+
+## 1.6 Claims Repudiated
+
+Claims Repudiated represents claims that were repudiated during the selected period.
+
+
+Claims Repudiated = Count of claims where claim_status = 'Repudiated'
+
+
+
+Claims Repudiated Amount = Sum of claim_amount where claim_status = 'Repudiated'
+
+
+***
+
+## 1.7 Claims Rejected
+
+Claims Rejected represents claims that were rejected during the selected period.
+
+
+Claims Rejected = Count of claims where claim_status = 'Rejected'
+
+
+Claims Rejected Amount = Sum of claim_amount where claim_status = 'Rejected'
+
+
+***
+
+## 1.8 Claims Cancelled
+
+Claims Cancelled represents claims that were cancelled during the selected period.
+
+
+Claims Cancelled = Count of claims where claim_status = 'Cancelled'
+
+
+
+Claims Cancelled Amount = Sum of claim_amount where claim_status = 'Cancelled'
+
+
+***
+
+## 1.9 Claims Intimation Cancelled
+
+Claims Intimation Cancelled represents claims where claim intimation was cancelled.
+
+
+Claims Intimation Cancelled = Count of claims where claim_status = 'Intimation Cancelled'
+
+
+
+Claims Intimation Cancelled Amount = Sum of claim_amount where claim_status = 'Intimation Cancelled'
+
+
+***
+
+## 1.10 Outstanding More Than 12 Months
+
+This KPI identifies claims that have remained outstanding for more than 12 months.
+
+
+Outstanding More Than 12 Months = Count of claims where claim is outstanding for more than 12 months
+
+
+
+Outstanding More Than 12 Months Amount = Sum of claim_amount for claims outstanding for more than 12 months
+
+
+***
+
+## 1.11 Outstanding Claims
+
+Outstanding Claims are calculated after subtracting paid, rejected, repudiated, cancelled, intimation cancelled, and claims outstanding more than 12 months from payable claims.
+
+
+Outstanding Claims = Payable Claims - Paid Claims - Outstanding More Than 12 Months - Claims Repudiated - Claims Rejected - Claims Intimation Cancelled - Claims Cancelled
+
+
+
+Outstanding Claim Amount = Payable Claim Amount - Paid Claim Amount - Outstanding More Than 12 Months Amount - Repudiated Amount - Rejected Amount - Intimation Cancelled Amount - Cancelled Amount
+
+
+***
+
+## 1.12 Total Outstanding Claims
+
+Total Outstanding Claims include both regular outstanding claims and claims outstanding for more than 12 months.
+
+
+Total Outstanding Claims = Outstanding Claims + Outstanding More Than 12 Months
+
+
+
+Total Outstanding Amount = Outstanding Claim Amount + Outstanding More Than 12 Months Amount
+
+
+***
+
+## 1.13 Outstanding Less Than 1 Month
+
+Claims outstanding for less than one month from due date.
+
+
+Outstanding Less Than 1 Month = Count of outstanding claims where outstanding age < 30 days
+
+
+
+Outstanding Less Than 1 Month Amount = Sum of claim_amount where outstanding age < 30 days
+
+
+***
+
+## 1.14 Outstanding Greater Than 1 Month
+
+Claims outstanding for more than one month from due date.
+
+
+Outstanding Greater Than 1 Month = Count of outstanding claims where outstanding age > 30 days
+
+
+
+Outstanding Greater Than 1 Month Amount = Sum of claim_amount where outstanding age > 30 days
+
+
+***
+
+## 1.15 Claim Settlement Ratio
+
+Claim Settlement Ratio shows the percentage of payable claims that were paid.
+
+
+Claim Settlement Ratio = (Paid Claims / Payable Claims) * 100
+
+
+***
+
+## 1.16 Paid Percentage
+
+Paid Percentage shows the percentage of payable claims that have been paid.
+
+
+Paid % = (Paid Claims / Payable Claims) * 100
+
+
+***
+
+## 1.17 Outstanding Percentage
+
+Outstanding Percentage shows the percentage of payable claims that are still outstanding.
+
+
+Outstanding % = (Total Outstanding Claims / Payable Claims) * 100
+
+
+***
+
+## 1.18 Speed Ratio
+
+Speed Ratio measures how many booked claims were paid on or before the due date.
+
+
+Speed Ratio = (Paid On or Before Due Date / Booked Claims) * 100
+
+
+***
+
+## 1.19 Super Speed Ratio
+
+Super Speed Ratio measures how many claims were settled within 15 days from intimation.
+
+
+Super Speed Ratio = (Claims Settled Within 15 Days From Intimation / Booked Claims) * 100
+
+
+***
+
+# 2. Monthly Trend KPIs
+
+***
+
+## 2.1 Monthly Claims Settled
+
+
+Monthly Claims Settled = Count of paid claims grouped by month
+
+
+***
+
+## 2.2 Monthly Claims Amount Paid
+
+
+Monthly Claims Amount Paid = Sum of claim_amount for paid claims grouped by month
+
+***
+
+## 2.3 Monthly Claims Outstanding
+
+
+Monthly Claims Outstanding = Count of outstanding claims grouped by month
+
+
+***
+
+## 2.4 Monthly Claims Outstanding Amount
+
+
+Monthly Claims Outstanding Amount = Sum of outstanding claim amount grouped by month
+
+
+***
+
+## 2.5 Monthly Claim Settlement Ratio
+
+
+Monthly Claim Settlement Ratio = (Monthly Paid Claims / Monthly Payable Claims) * 100
+
+
+***
+
+# 3. Outstanding Claims Analysis Dashboard KPIs
+
+***
+
+## 3.1 Total Outstanding Claims
+
+
+Total Outstanding Claims = Outstanding Claims + Outstanding More Than 12 Months
+
+
+***
+
+## 3.2 Total Outstanding Amount
+
+
+Total Outstanding Amount = Outstanding Amount + Outstanding More Than 12 Months Amount
+
+
+***
+
+## 3.3 Outstanding Claims With Mobile Number
+
+
+Outstanding Claims With Mobile = Count of outstanding claims where mobile_number is not null
+
+
+***
+
+## 3.4 Outstanding Claims Without Mobile Number
+
+
+Outstanding Claims Without Mobile = Count of outstanding claims where mobile_number is null
+
+
+***
+
+## 3.5 Outstanding Claims With Email
+
+
+Outstanding Claims With Email = Count of outstanding claims where email is not null
+
+
+***
+
+## 3.6 Outstanding Claims Without Email
+
+
+Outstanding Claims Without Email = Count of outstanding claims where email is null
+
+
+***
+
+## 3.7 Outstanding Claims With NEFT
+
+
+Outstanding Claims With NEFT = Count of outstanding claims where neft_status = 'Available'
+
+
+***
+
+## 3.8 Outstanding Claims Without NEFT
+
+
+Outstanding Claims Without NEFT = Count of outstanding claims where neft_status = 'Not Available'
+
+
+***
+
+## 3.9 Outstanding Claims With PAN
+
+
+Outstanding Claims With PAN = Count of outstanding claims where pan_number is not null
+
+
+***
+
+## 3.10 Outstanding Claims Without PAN
+
+
+Outstanding Claims Without PAN = Count of outstanding claims where pan_number is null
+
+
+***
+
+## 3.11 Outstanding Without Mobile Percentage
+
+
+Outstanding Without Mobile % = (Outstanding Claims Without Mobile / Total Outstanding Claims) * 100
+
+
+***
+
+## 3.12 Outstanding Without Email Percentage
+
+
+Outstanding Without Email % = (Outstanding Claims Without Email / Total Outstanding Claims) * 100
+
+
+***
+
+## 3.13 Outstanding Without NEFT Percentage
+
+
+Outstanding Without NEFT % = (Outstanding Claims Without NEFT / Total Outstanding Claims) * 100
+
+
+***
+
+## 3.14 Outstanding Without PAN Percentage
+
+
+Outstanding Without PAN % = (Outstanding Claims Without PAN / Total Outstanding Claims) * 100
+
+
+***
+
+# 4. Reinvestment Analysis Dashboard KPIs
+
+***
+
+## 4.1 Claims With Reinvestment Consent
+
+
+Claims With Reinvestment Consent = Count of outstanding claims where reinvestment_consent = 'Yes'
+
+
+***
+
+## 4.2 Claims Without Reinvestment Consent
+
+
+Claims Without Reinvestment Consent = Count of outstanding claims where reinvestment_consent = 'No'
+
+
+***
+
+## 4.3 Reinvestment Consent Percentage
+
+
+Reinvestment Consent % = (Claims With Reinvestment Consent / Total Outstanding Claims) * 100
+
+
+***
+
+## 4.4 Total Reinvestment Amount
+
+
+Total Reinvestment Amount = Sum of reinvestment_amount where reinvestment_consent = 'Yes'
+
+
+***
+
+## 4.5 Outstanding Claims Eligible for Reinvestment
+
+
+Outstanding Claims Eligible for Reinvestment = Count of outstanding claims where reinvestment_eligible = 'Yes'
+
+
+***
+
+## 4.6 Reinvestment Eligibility Percentage
+
+
+Reinvestment Eligibility % = (Outstanding Claims Eligible for Reinvestment / Total Outstanding Claims) * 100
+
+
+***
+
+## 4.7 Average Reinvestment Amount
+
+
+Average Reinvestment Amount = Total Reinvestment Amount / Claims With Reinvestment Consent
+
+
+***
+
+# 5. Due Claims Analysis Dashboard KPIs
+
+***
+
+## 5.1 Total Claims Due
+
+
+Total Claims Due = Count of claims where due_date falls in selected period
+
+
+***
+
+## 5.2 Total Claims Amount Due
+
+
+Total Claims Amount Due = Sum of claim_amount where due_date falls in selected period
+
+
+***
+
+## 5.3 Total Claims Intimated
+
+
+Total Claims Intimated = Count of due claims where intimation_status = 'Intimated'
+
+
+***
+
+## 5.4 Total Claims Not Intimated
+
+
+Total Claims Not Intimated = Count of due claims where intimation_status = 'Not Intimated'
+
+
+***
+
+## 5.5 Claims Intimation Percentage
+
+
+Claims Intimation % = (Total Claims Intimated / Total Claims Due) * 100
+
+
+***
+
+## 5.6 Claims Not Intimated Percentage
+
+
+Claims Not Intimated % = (Total Claims Not Intimated / Total Claims Due) * 100
+
+
+***
+
+## 5.7 Due Claims Amount Intimated
+
+
+Due Claims Amount Intimated = Sum of claim_amount where intimation_status = 'Intimated'
+
+
+***
+
+## 5.8 Due Claims Amount Not Intimated
+
+
+Due Claims Amount Not Intimated = Sum of claim_amount where intimation_status = 'Not Intimated'
+
+
+***
+
+# 6. Current Year, Last Year and YoY KPIs
+
+***
+
+## 6.1 Current Year Number
+
+
+CY Number = Count of selected metric for current financial year
+
+
+***
+
+## 6.2 Last Year Number
+
+
+LY Number = Count of selected metric for same period in previous financial year
+
+
+***
+
+## 6.3 Current Year Amount
+
+
+CY Amount = Sum of selected metric amount for current financial year
+
+
+***
+
+## 6.4 Last Year Amount
+
+
+LY Amount = Sum of selected metric amount for same period in previous financial year
+
+
+***
+
+## 6.5 CY vs LY Difference
+
+
+CY - LY = Current Year Value - Last Year Value
+
+
+***
+
+## 6.6 CY Percentage vs LY Percentage Difference
+
+
+CY % - LY % = Current Year Percentage - Last Year Percentage
+
+
+***
+
+## 6.7 YoY Growth Percentage
+
+
+YoY Growth % = ((Current Year Value - Last Year Value) / Last Year Value) * 100
+
+
+***
+
+## 6.8 YoY Amount Growth Percentage
+
+
+YoY Amount Growth % = ((Current Year Amount - Last Year Amount) / Last Year Amount) * 100
+
+
+***
+
+## 6.9 YoY Count Growth Percentage
+
+
+YoY Count Growth % = ((Current Year Count - Last Year Count) / Last Year Count) * 100
+
+
+***
+
+# 7. Qlik Sense Ready Expression Examples
+
+Note: Replace field names according to your actual data model.
+
+***
+
+## 7.1 Total Claims
+
+
+Count(DISTINCT claim_id)
+
+
+***
+
+## 7.2 Booked Claims
+
+```qlik
+Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.3 Booked Claim Amount
+
+```qlik
+Sum({<claim_status={'Booked'}>} claim_amount)
+```
+
+***
+
+## 7.4 Paid Claims
+
+```qlik
+Count({<claim_status={'Paid'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.5 Paid Claim Amount
+
+```qlik
+Sum({<claim_status={'Paid'}>} claim_amount)
+```
+
+***
+
+## 7.6 Payable Claims
+
+```qlik
+Count({<claim_stage={'Opening Balance'}>} DISTINCT claim_id)
++
+Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.7 Payable Claim Amount
+
+```qlik
+Sum({<claim_stage={'Opening Balance'}>} claim_amount)
++
+Sum({<claim_status={'Booked'}>} claim_amount)
+```
+
+***
+
+## 7.8 Claims Rejected
+
+```qlik
+Count({<claim_status={'Rejected'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.9 Claims Rejected Amount
+
+```qlik
+Sum({<claim_status={'Rejected'}>} claim_amount)
+```
+
+***
+
+## 7.10 Claims Repudiated
+
+```qlik
+Count({<claim_status={'Repudiated'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.11 Claims Repudiated Amount
+
+```qlik
+Sum({<claim_status={'Repudiated'}>} claim_amount)
+```
+
+***
+
+## 7.12 Claims Cancelled
+
+```qlik
+Count({<claim_status={'Cancelled'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.13 Claims Cancelled Amount
+
+```qlik
+Sum({<claim_status={'Cancelled'}>} claim_amount)
+```
+
+***
+
+## 7.14 Claims Intimation Cancelled
+
+```qlik
+Count({<claim_status={'Intimation Cancelled'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.15 Outstanding More Than 12 Months
+
+```qlik
+Count({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.16 Outstanding More Than 12 Months Amount
+
+```qlik
+Sum({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} claim_amount)
+```
+
+***
+
+## 7.17 Outstanding Claims
+
+```qlik
+(
+    Count({<claim_stage={'Opening Balance'}>} DISTINCT claim_id)
+    +
+    Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+)
+-
+Count({<claim_status={'Paid'}>} DISTINCT claim_id)
+-
+Count({<claim_status={'Rejected'}>} DISTINCT claim_id)
+-
+Count({<claim_status={'Repudiated'}>} DISTINCT claim_id)
+-
+Count({<claim_status={'Cancelled'}>} DISTINCT claim_id)
+-
+Count({<claim_status={'Intimation Cancelled'}>} DISTINCT claim_id)
+-
+Count({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.18 Outstanding Amount
+
+```qlik
+(
+    Sum({<claim_stage={'Opening Balance'}>} claim_amount)
+    +
+    Sum({<claim_status={'Booked'}>} claim_amount)
+)
+-
+Sum({<claim_status={'Paid'}>} claim_amount)
+-
+Sum({<claim_status={'Rejected'}>} claim_amount)
+-
+Sum({<claim_status={'Repudiated'}>} claim_amount)
+-
+Sum({<claim_status={'Cancelled'}>} claim_amount)
+-
+Sum({<claim_status={'Intimation Cancelled'}>} claim_amount)
+-
+Sum({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} claim_amount)
+```
+
+***
+
+## 7.19 Total Outstanding Claims
+
+```qlik
+(
+    (
+        Count({<claim_stage={'Opening Balance'}>} DISTINCT claim_id)
+        +
+        Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+    )
+    -
+    Count({<claim_status={'Paid'}>} DISTINCT claim_id)
+    -
+    Count({<claim_status={'Rejected'}>} DISTINCT claim_id)
+    -
+    Count({<claim_status={'Repudiated'}>} DISTINCT claim_id)
+    -
+    Count({<claim_status={'Cancelled'}>} DISTINCT claim_id)
+    -
+    Count({<claim_status={'Intimation Cancelled'}>} DISTINCT claim_id)
+    -
+    Count({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} DISTINCT claim_id)
+)
++
+Count({<claim_status={'Outstanding'}, outstanding_bucket={'>12 Months'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.20 Claim Settlement Ratio
+
+```qlik
+Num(
+    Count({<claim_status={'Paid'}>} DISTINCT claim_id)
+    /
+    (
+        Count({<claim_stage={'Opening Balance'}>} DISTINCT claim_id)
+        +
+        Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+    ),
+    '0.00%'
+)
+```
+
+***
+
+## 7.21 Outstanding Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id)
+    /
+    (
+        Count({<claim_stage={'Opening Balance'}>} DISTINCT claim_id)
+        +
+        Count({<claim_status={'Booked'}>} DISTINCT claim_id)
+    ),
+    '0.00%'
+)
+```
+
+***
+
+## 7.22 Paid On or Before Due Date
+
+```qlik
+Count({<claim_status={'Paid'}, paid_within_due_flag={'Yes'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.23 Speed Ratio
+
+```qlik
+Num(
+    Count({<claim_status={'Paid'}, paid_within_due_flag={'Yes'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Booked'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.24 Super Speed Ratio
+
+```qlik
+Num(
+    Count({<claim_status={'Paid'}, settled_within_15_days_flag={'Yes'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Booked'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.25 Outstanding Claims Without Mobile
+
+```qlik
+Count({<claim_status={'Outstanding'}, mobile_available_flag={'No'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.26 Outstanding Claims Without Email
+
+```qlik
+Count({<claim_status={'Outstanding'}, email_available_flag={'No'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.27 Outstanding Claims Without NEFT
+
+```qlik
+Count({<claim_status={'Outstanding'}, neft_available_flag={'No'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.28 Outstanding Claims Without PAN
+
+```qlik
+Count({<claim_status={'Outstanding'}, pan_available_flag={'No'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.29 Outstanding Without Mobile Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}, mobile_available_flag={'No'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.30 Outstanding Without Email Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}, email_available_flag={'No'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.31 Outstanding Without NEFT Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}, neft_available_flag={'No'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.32 Outstanding Without PAN Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}, pan_available_flag={'No'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.33 Claims With Reinvestment Consent
+
+```qlik
+Count({<claim_status={'Outstanding'}, reinvestment_consent={'Yes'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.34 Claims Without Reinvestment Consent
+
+```qlik
+Count({<claim_status={'Outstanding'}, reinvestment_consent={'No'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.35 Reinvestment Consent Percentage
+
+```qlik
+Num(
+    Count({<claim_status={'Outstanding'}, reinvestment_consent={'Yes'}>} DISTINCT claim_id)
+    /
+    Count({<claim_status={'Outstanding'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.36 Total Reinvestment Amount
+
+```qlik
+Sum({<claim_status={'Outstanding'}, reinvestment_consent={'Yes'}>} reinvestment_amount)
+```
+
+***
+
+## 7.37 Average Reinvestment Amount
+
+```qlik
+Sum({<claim_status={'Outstanding'}, reinvestment_consent={'Yes'}>} reinvestment_amount)
+/
+Count({<claim_status={'Outstanding'}, reinvestment_consent={'Yes'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.38 Total Claims Due
+
+```qlik
+Count({<due_claim_flag={'Yes'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.39 Total Claims Amount Due
+
+```qlik
+Sum({<due_claim_flag={'Yes'}>} claim_amount)
+```
+
+***
+
+## 7.40 Total Claims Intimated
+
+```qlik
+Count({<due_claim_flag={'Yes'}, intimation_status={'Intimated'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.41 Total Claims Not Intimated
+
+```qlik
+Count({<due_claim_flag={'Yes'}, intimation_status={'Not Intimated'}>} DISTINCT claim_id)
+```
+
+***
+
+## 7.42 Claims Intimation Percentage
+
+```qlik
+Num(
+    Count({<due_claim_flag={'Yes'}, intimation_status={'Intimated'}>} DISTINCT claim_id)
+    /
+    Count({<due_claim_flag={'Yes'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 7.43 Claims Not Intimated Percentage
+
+```qlik
+Num(
+    Count({<due_claim_flag={'Yes'}, intimation_status={'Not Intimated'}>} DISTINCT claim_id)
+    /
+    Count({<due_claim_flag={'Yes'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+# 8. CY, LY and YoY Qlik Expression Examples
+
+***
+
+## 8.1 Current Year Paid Claims
+
+```qlik
+Count({<financial_year={'$(=Max(financial_year))'}, claim_status={'Paid'}>} DISTINCT claim_id)
+```
+
+***
+
+## 8.2 Last Year Paid Claims
+
+```qlik
+Count({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} DISTINCT claim_id)
+```
+
+***
+
+## 8.3 CY Paid Amount
+
+```qlik
+Sum({<financial_year={'$(=Max(financial_year))'}, claim_status={'Paid'}>} claim_amount)
+```
+
+***
+
+## 8.4 LY Paid Amount
+
+```qlik
+Sum({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} claim_amount)
+```
+
+***
+
+## 8.5 CY vs LY Difference
+
+```qlik
+Count({<financial_year={'$(=Max(financial_year))'}, claim_status={'Paid'}>} DISTINCT claim_id)
+-
+Count({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} DISTINCT claim_id)
+```
+
+***
+
+## 8.6 YoY Growth Percentage - Count
+
+```qlik
+Num(
+    (
+        Count({<financial_year={'$(=Max(financial_year))'}, claim_status={'Paid'}>} DISTINCT claim_id)
+        -
+        Count({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} DISTINCT claim_id)
+    )
+    /
+    Count({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} DISTINCT claim_id),
+    '0.00%'
+)
+```
+
+***
+
+## 8.7 YoY Growth Percentage - Amount
+
+```qlik
+Num(
+    (
+        Sum({<financial_year={'$(=Max(financial_year))'}, claim_status={'Paid'}>} claim_amount)
+        -
+        Sum({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} claim_amount)
+    )
+    /
+    Sum({<financial_year={'$(=Max(financial_year)-1)'}, claim_status={'Paid'}>} claim_amount),
+    '0.00%'
+)
+```
+
+***
+
+# 9. Recommended Formatting Rules
+
+***
+
+## 9.1 Positive Growth
+
+
+If YoY Growth % >= 0, show green color with upward indicator.
+
+
+***
+
+## 9.2 Negative Growth
+
+
+If YoY Growth % < 0, show red color with downward indicator.
+
+
+***
+
+## 9.3 Inverse Color Logic for Outstanding KPIs
+
+For Outstanding Percentage, lower value is better.
+
+
+If Outstanding % decreases, show green color.
+If Outstanding % increases, show red color.
+
+
+***
+
+# 10. Notes
+
+* All formulas are based on synthetic/sample data.
+* Field names may vary depending on the actual Qlik data model.
+* Qlik expressions should be adjusted according to the final field names used in the application.
+* The formulas are designed for portfolio and demonstration purposes.
+* No real customer, policy, branch, agent, or company data is used.
+
+
+
+
